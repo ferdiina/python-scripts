@@ -15,11 +15,15 @@ def index():
     return render_template('index.html')
 
 @app.route('/run_abc_script')
+@basic_auth.required  # 鉴权保护该路由
+
 def run_abc_script():
     subprocess.Popen(['./killst.sh'])    
     return 'abc 脚本已执行'
 
 @app.route('/run_efg_script')
+@basic_auth.required  # 鉴权保护该路由
+
 def run_efg_script():
     subprocess.Popen(['./startst.sh'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return 'efg 脚本已在后台执行'
