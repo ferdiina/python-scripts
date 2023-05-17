@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GBI Log Viewer</title>
+    <title>Catalina Log Viewer</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -13,7 +13,7 @@
     </style>
 </head>
 <body>
-    <h1>GBI Log Viewer</h1>
+    <h1>Catalina Log Viewer</h1>
 
     <form action="/" method="post">
         <label for="file">Source File:</label>
@@ -22,10 +22,7 @@
                 <option value="{{ file.path }}" {% if file.path == selected_file %}selected{% endif %}>{{ file.name }}</option>
             {% endfor %}
         </select>
-        <input type="hidden" name="page" value="{{ page - 1 }}">
-        {% if page > 1 %}
-            <button type="submit">Previous Page</button>
-        {% endif %}
+        <button type="submit">View Log</button>
     </form>
 
     <pre>
@@ -33,13 +30,5 @@
             {{ line }}
         {% endfor %}
     </pre>
-
-    {% if total_lines > (page * 1000) %}
-        <form action="/" method="post">
-            <input type="hidden" name="file" value="{{ selected_file }}">
-            <input type="hidden" name="page" value="{{ page + 1 }}">
-            <button type="submit">Next Page</button>
-        </form>
-    {% endif %}
 </body>
 </html>
