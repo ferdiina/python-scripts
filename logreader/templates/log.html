@@ -1,34 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Catalina Log Viewer</title>
+    <title>Log Viewer</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
         }
 
-        pre {
-            white-space: nowrap;
+        #sidebar {
+            flex: 0 0 200px;
+            padding-top: 20px;
+        }
+
+        #content {
+            flex: 1;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        #file-list {
+            margin-bottom: 20px;
+        }
+
+        #file-list select {
+            width: 100%;
+        }
+
+        #log-content {
+            white-space: pre;
+            font-family: 'Arial', sans-serif;
         }
     </style>
 </head>
 <body>
-    <h1>Catalina Log Viewer</h1>
+    <div id="sidebar">
+        <h1>Log Files</h1>
+        <div id="file-list">
+            <select name="file" id="file">
+                {% for file in source_files %}
+                    <option value="{{ file.path }}" {% if file.path == selected_file %}selected{% endif %}>{{ file.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div id="content">
+        <h1>Log Content</h1>
+        <pre id="log-content">{{ log_content }}</pre>
+    </div>
 
-    <form action="/" method="post">
-        <label for="file">Source File:</label>
-        <select name="file" id="file">
-            {% for file in source_files %}
-                <option value="{{ file.path }}" {% if file.path == selected_file %}selected{% endif %}>{{ file.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">View Log</button>
-    </form>
-
-    <pre>
-        {% for line in lines %}
-            {{ line }}
-        {% endfor %}
-    </pre>
+    <script>
+        var fileSelect = document.getElementById("file");
+        fileSelect.onchange = function() {
+            window.location.href = "/?file=" + encodeURIComponent(this.value);
+        };
+    </script>
 </body>
 </html>
