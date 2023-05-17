@@ -1,0 +1,2 @@
+Tomcat-8080,/opt/tomcat/8080/logs/catalina.out
+Elasticsearch,/data/elasticsearch/logs/elasticsearch.log
