@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamSets测试环境执行脚本</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #F1F1F1;
+        }
+
+        h1 {
+            color: #333333;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #FFC107;
+            border: none;
+            border-radius: 10px;
+            margin: 10px;
+            cursor: pointer;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .button i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1>StreamSets测试环境执行脚本 欢迎，{{ request.authorization.username }}</h1>
+            <button class="button" onclick="runABCScript()"><i class="fas fa-power-off"></i> 执行 Shutdown 脚本</button>
+            <button class="button" onclick="runEFGScript()"><i class="fas fa-play"></i> 执行 Startup 脚本</button>
+        </div>
+    </div>
+
+    <script>
+        function runABCScript() {
+            fetch('/run_abc_script')
+                .then(response => response.text())
+                .then(message => console.log(message));
+        }
+
+        function runEFGScript() {
+            fetch('/run_efg_script')
+                .then(response => response.text())
+                .then(message => console.log(message));
+        }
+    </script>
+</body>
+</html>
