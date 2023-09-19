@@ -1,0 +1,32 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.before_request
+def before_request():
+    if 'CF-Connecting-IP' in request.headers:
+        request.environ['REMOTE_ADDR'] = request.headers['CF-Connecting-IP']
+    elif 'X-Forwarded-For' in request.headers:
+        request.environ['REMOTE_ADDR'] = request.headers['X-Forwarded-For']
+
+
+
+@app.route('/')
+def get_client_ip():
+    if 'CF-Connecting-IP' in request.headers:
+        user_ip = request.headers['CF-Connecting-IP']
+    elif 'X-Forwarded-For' in request.headers:
+        user_ip = request.headers['X-Forwarded-For'].split(',')[0]
+    else:
+        user_ip = request.remote_addr
+    return f'{user_ip}'
+    if "cf-ipcity" in request.headers:
+        user_city = request.headers['cf-ipcity']
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=8888)
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter(
+        '[%(asctime)s] %(remote_addr)s %(user_city)s %(levelname)s in %(module)s: %(message)s'
+    ))
+    app.logger.addHandler(handler)
